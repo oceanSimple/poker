@@ -1,6 +1,7 @@
 namespace Poker.Enum;
 
 public enum EHandType : int {
+    None = -1,
     HighCard = 0,
     OnePair = 1,
     TwoPair = 2,

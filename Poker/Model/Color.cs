@@ -45,6 +45,14 @@ public class Color {
         }
     }
 
+    public override bool Equals(object? obj) {
+        return obj is Color color && Code == color.Code;
+    }
+
+    public override int GetHashCode() {
+        return Code.GetHashCode();
+    }
+
     public int CompareTo(Color other) {
         return Code.CompareTo(other.Code);
     }

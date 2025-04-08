@@ -100,6 +100,14 @@ public class Number {
                 break;
         }
     }
+    
+    public override bool Equals(object? obj) {
+        return obj is Number number && Code == number.Code;
+    }
+    
+    public override int GetHashCode() {
+        return Code.GetHashCode();
+    }
 
     public int CompareTo(Number other) {
         return Value.CompareTo(other.Value);

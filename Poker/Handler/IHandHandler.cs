@@ -1,64 +1,52 @@
+using Poker.Enum;
 using Poker.Model;
 
 namespace Poker.Handler;
 
-/// <summary>
-///     Interface for handling poker hands, which is used to judge the type of hand. <br/>
-/// </summary>
 public interface IHandHandler {
     /// <summary>
-    ///   Check if the hand is a Flush. <br/>
+    ///   According to the given type and ranks, compare two hands. <br/>
     /// </summary>
-    /// <param name="cards">The cards that need to be judged</param>
-    /// <param name="ranks">Out ranks param</param>
-    /// <returns>Bool result</returns>
-    bool IsFlush(List<Card>? cards, out List<int> ranks);
+    /// <returns>
+    ///   1: hand1 > hand2 <br/>
+    ///   0: hand1 = hand2 <br/>
+    ///   -1: hand1 less than  hand2  <br/>
+    /// </returns>
+    int CompareTwoHands(EHandType type1, EHandType type2, List<int> ranks1, List<int> ranks2);
 
     /// <summary>
-    ///   Check if the hand is a Straight. <br/>
+    ///   Compare two hands. <br/>
     /// </summary>
-    /// <param name="cards">The cards that need to be judged</param>
-    /// <param name="ranks">Out ranks param</param>
-    /// <returns>Bool result</returns>
-    bool IsStraight(List<Card> cards, out List<int> ranks);
+    /// <returns>
+    ///   1: hand1 > hand2 <br/>
+    ///   0: hand1 = hand2 <br/>
+    ///   -1: hand1 less than  hand2  <br/>
+    /// </returns>
+    int CompareTwoHands(Hand hand1, Hand hand2);
 
     /// <summary>
-    ///   Check if the hand is Four of a Kind. <br/>
+    ///   Get the max hands' index from the given hands. <br/>
     /// </summary>
-    /// <param name="cards">The cards that need to be judged</param>
-    /// <param name="ranks">Out ranks param</param>
-    /// <returns>Bool result</returns>
-    bool IsFourOfAKind(List<Card> cards, out List<int> ranks);
+    /// <returns>
+    ///    A list of max hands' index from the given hands. <br/>
+    /// </returns>
+    List<int> GetMaxHands(List<Hand> hands);
 
     /// <summary>
-    ///   Check if the hand is a Full House. <br/>
+    ///     Get all combinations of n cards from the given list of cards.
     /// </summary>
-    /// <param name="cards">The cards that need to be judged</param>
-    /// <param name="ranks">Out ranks param</param>
-    /// <returns>Bool result</returns>
-    bool IsFullHouse(List<Card> cards, out List<int> ranks);
+    /// <param name="cards">Given list of cards</param>
+    /// <param name="n">The number of combination cards</param>
+    /// <returns>
+    ///     A list of all combinations of n cards from the given list of cards.
+    /// </returns>
+    List<List<Card>> GetCombinations(List<Card> cards, int n);
 
     /// <summary>
-    ///   Check if the hand is Three of a Kind. <br/>
+    ///     According to the cards, determine the type of hand and the ranks. <br/>
     /// </summary>
-    /// <param name="cards">The cards that need to be judged</param>
-    /// <param name="ranks">Out ranks param</param>
-    /// <returns>Bool result</returns>
-    bool IsThreeOfAKind(List<Card> cards, out List<int> ranks);
-
-    /// <summary>
-    ///   Check if the hand is Two Pair. <br/>
-    /// </summary>
-    /// <param name="cards">The cards that need to be judged</param>
-    /// <param name="ranks">Out ranks param</param>
-    /// <returns>Bool result</returns>
-    bool IsTwoPair(List<Card> cards, out List<int> ranks);
-
-    /// <summary>
-    ///   Check if the hand is One Pair. <br/>
-    /// </summary>
-    /// <param name="cards">The cards that need to be judged</param>
-    /// <param name="ranks">Out ranks param</param>
-    /// <returns>Bool result</returns>
-    bool IsOnePair(List<Card> cards, out List<int> ranks);
+    /// <returns>
+    ///     A tuple containing the type of hand and the ranks. <br/>
+    /// </returns>
+    (EHandType type, List<int> ranks) GetTypeAndRanks(List<Card> cards);
 }

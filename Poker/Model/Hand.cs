@@ -1,45 +1,51 @@
+using Poker.Enum;
+using Poker.Handler;
+
 namespace Poker.Model;
 
 public class Hand {
+    private readonly HandHandler _handHandler = HandHandler.Instance;
+
     // Initial cards
-    public List<Card> Cards;
-
-    // Hand type, e.g., Straight, Flush, etc.
-    public int Type;
-
-    // When two hand are the same type, use ranks to compare
-    public List<int> Ranks;
+    public readonly List<Card> Cards;
 
     // Max combination 5 cards for the hand
-    public List<Card> MaxCombination;
+    public readonly List<Card> MaxCombination;
 
-    /// <summary>
-    ///     Get all combinations of n cards from the given list of cards.
-    /// </summary>
-    /// <param name="cards">Given list of cards</param>
-    /// <param name="n">The number of combination cards</param>
-    /// <returns>
-    ///     A list of all combinations of n cards from the given list of cards.
-    /// </returns>
-    public List<List<Card>> GetCombinations(List<Card> cards, int n) {
-        List<List<Card>> combinations = new List<List<Card>>();
-        int count = cards.Count;
-        if (n > count) return combinations;
+    // When two hand are the same type, use ranks to compare
+    public readonly List<int> Ranks;
 
-        // Generate all combinations of size n
-        for (int i = 0; i < (1 << count); i++) {
-            List<Card> combination = new List<Card>();
-            for (int j = 0; j < count; j++) {
-                if ((i & (1 << j)) != 0) {
-                    combination.Add(cards[j]);
-                }
-            }
+    // Hand type, e.g., Straight, Flush, etc.
+    public readonly EHandType Type;
 
-            if (combination.Count == n) {
-                combinations.Add(combination);
+    public Hand(List<Card> cards) {
+        var maxType = EHandType.None;
+        var maxRanks = new List<int>();
+        var maxCombination = new List<Card>();
+
+        var combinations = _handHandler.GetCombinations(cards, 5);
+        foreach (var combination in combinations) {
+            var (type, ranks) = _handHandler.GetTypeAndRanks(combination);
+            if (_handHandler.CompareTwoHands(type, maxType, ranks, maxRanks) == 1) {
+                maxType = type;
+                maxRanks = ranks;
+                maxCombination = combination;
             }
         }
 
-        return combinations;
+        Cards = cards;
+        Type = maxType;
+        Ranks = maxRanks;
+        MaxCombination = maxCombination;
+    }
+
+    /// <summary>
+    ///     Warning: This constructor is used for testing
+    /// </summary>
+    public Hand(EHandType type, List<int> ranks) {
+        Cards = [];
+        Type = type;
+        Ranks = ranks;
+        MaxCombination = [];
     }
 }
