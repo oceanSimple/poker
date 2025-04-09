@@ -48,4 +48,8 @@ public class Hand {
         Ranks = ranks;
         MaxCombination = [];
     }
+
+    public override string ToString() {
+        return string.Join(" ", MaxCombination);
+    }
 }
