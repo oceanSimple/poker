@@ -9,8 +9,8 @@ using Enum;
 ///     Including sort, shuffle, draw, and print functions. <br/>
 /// </summary>
 public class Deck {
-    private readonly List<Card> _deck;
-    public int Count => _deck.Count;
+    private  List<Card> _deck { get; set; }
+    public int Count  => _deck.Count;
 
     /// <summary>
     ///     Create a new deck of 52 cards. <br/>

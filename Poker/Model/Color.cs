@@ -1,9 +1,9 @@
 namespace Poker.Model;
 
 public class Color {
-    public readonly int Code;
-    public readonly string Description;
-    public readonly string Picture;
+    public int Code { get; set; }
+    public string Description { get; set; }
+    public string Picture { get; set; }
 
     public Color(int code) {
         switch (code) {
